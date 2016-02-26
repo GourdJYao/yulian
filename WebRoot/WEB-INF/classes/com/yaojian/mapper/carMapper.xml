@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.yaojian.mapper.CarMapper">
+
+	<insert id="save" parameterType="Car">
+		insert into
+		t_car_info(platenumber,cartype,carimage)
+		values(#{platenumber},#{cartype},#{carimage})
+	</insert>
+
+	<update id="update" parameterType="Car">
+		update t_car_info set
+		id=#{id},platenumber=#{platenumber},cartype=#{cartype},carimage=#{carimage}
+		where id=#{id}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		delete from t_car_info where
+		id=#{id}
+	</delete>
+
+	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
+	<select id="findById" parameterType="int" resultType="Car">
+		select
+		id,platenumber,cartype,carimage
+		from t_car_info where
+		id=#{id};
+	</select>
+
+	<select id="findAll" resultType="Car">
+		select
+		id,platenumber,cartype,carimage
+		from t_car_info;
+	</select>
+
+</mapper>
