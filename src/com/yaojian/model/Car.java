@@ -17,10 +17,10 @@ public class Car {
 	public void setPlatenumber(String platenumber) {
 		this.platenumber = platenumber;
 	}
-	public int getCartype() {
+	public Integer getCartype() {
 		return cartype;
 	}
-	public void setCartype(int cartype) {
+	public void setCartype(Integer cartype) {
 		this.cartype = cartype;
 	}
 	public String getCarimage() {

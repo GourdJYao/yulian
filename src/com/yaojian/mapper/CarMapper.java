@@ -7,7 +7,7 @@ import com.yaojian.model.Car;
 public interface CarMapper {
 	void save(Car car);
 	boolean update(Car car);
-	boolean delete(int id);
-	Car findById(int id);
+	boolean delete(Integer id);
+	Car findById(Integer id);
 	List<Car> findAll();
 }
