@@ -26,8 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <h1>添加用户</h1>
 	<form action="" name="userForm">
 		<input type="hidden" name="id" value="${user.id }"/>
-		姓名：<input type="text" name="userName" value="${user.userName }"/>
-		年龄：<input type="text" name="age" value="${user.age }"/>
+		姓名：<input type="text" name="username" value="${user.username }"/>
+		年龄：<input type="text" name="password" value="${user.password }"/>
 		<input type="button" value="编辑" onclick="updateUser()"/>
 	</form>
   </body>

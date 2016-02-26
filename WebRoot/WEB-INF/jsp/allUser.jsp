@@ -37,8 +37,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<c:if test="${!empty userList }">
 				<c:forEach items="${userList}" var="user">
 					<tr>
-						<td>${user.userName }</td>
-						<td>${user.age }</td>
+						<td>${user.username }</td>
+						<td>${user.password }</td>
 						<td>
 							<a href="<%=basePath%>user/getUser?id=${user.id}">编辑</a>
 							<a href="javascript:del('${user.id }')">删除</a>
