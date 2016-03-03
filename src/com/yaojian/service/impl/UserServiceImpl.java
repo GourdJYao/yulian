@@ -38,15 +38,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public void save(User user) {
-
 		mapper.save(user);
 	}
 
 	public boolean update(User user) {
-
 		return mapper.update(user);
 	}
 	
-	
-
+	public User findByUser(User user) {
+		return mapper.findByUser(user);
+	}
 }

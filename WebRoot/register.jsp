@@ -51,7 +51,8 @@ body {
 }
 </style>
 </head>
-<body onload="$('#newsangdiv').hide();$('#oldsangdiv').hide();$('#yidongdiv').hide();">
+<body
+	onload="$('#newsangdiv').hide();$('#oldsangdiv').hide();$('#yidongdiv').hide();$('#header_image').hide();">
 	<div class="cf"></div>
 
 	<div class="row">
@@ -62,7 +63,7 @@ body {
 
 			<form id="my-form">
 
-				<section name="第一步">
+				<section id="first" name="第一步">
 				<div>
 					<label>用户名:</label><input id="username" name="username" type="text" />
 				</div>
@@ -70,7 +71,8 @@ body {
 					<label>密码:</label><input id="pass" name="password" type="password" />
 				</div>
 				<div>
-					<label>确认密码:</label><input id="repass" name="repassword" type="password" />
+					<label>确认密码:</label><input id="repass" name="repassword"
+						type="password" />
 				</div>
 				<div>
 					<label>邮箱:</label><input id="email" name="email"
@@ -87,7 +89,7 @@ body {
 					<label>出生日期:</label><input name="date" class="datepicker"
 						data-ideal="date" type="text" placeholder="月/日/年" />
 				</div>
-				<div>
+				<div id="header_div">
 					<label>上传头像:</label><input id="file" name="file" multiple
 						type="file" />
 				</div>
@@ -131,7 +133,7 @@ body {
 					</div>
 					<div>
 						<label>上传身份证图片:</label><input id="idcardfile" name="idcardfile"
-							multiple type="file" />
+							multiple type="file" onselect="" />
 					</div>
 				</div>
 				</section>
@@ -162,7 +164,7 @@ body {
 				</div>
 
 				<div>
-					<button type="submit">提交</button>
+					<button type="submit" onclick="postDate();">提交</button>
 					<button id="reset" type="button">重置</button>
 				</div>
 
@@ -179,22 +181,38 @@ body {
 	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/jquery.idealforms.js"></script>
 	<script type="text/javascript">
-		function postDate(){
-			if($('#username').val().length==0){
+		function postDate() {
+			if ($('#username').val().length == 0) {
+				$('#first').click();
 				alert('用户名不能为空');
 				return;
 			}
-			if($('#pass').val().length==0){
+			if ($('#pass').val().length == 0) {
+				$('#first').click();
 				alert('密码不能为空');
 				return;
 			}
-			if($('#repass').val().length==0){
+			if ($('#repass').val().length == 0) {
+				$('#first').click();
 				alert('确认密码不能为空');
 				return;
 			}
+
 		}
-	
-	
+		var userinfo = new Object();
+		function getData() {
+			userinfo.username = $('#username').val();
+			userinfo.password = $('#pass').val();
+			if ($("input[name='studentradio']").checked) {
+				userinfo.usertype = '1';
+			} else {
+				userinfo.usertype = '0';
+			}
+			userinfo.email = $('#email').val();
+			userinfo.birthday = $("input[name='date']").val();
+
+		}
+
 		function clickcartype(checkbox) {
 			if (checkbox.name == "carnewsang") {
 				if (checkbox.checked == true) {
@@ -220,16 +238,16 @@ body {
 			console.log("radio:" + radio.checked);
 			radio.checked = true;
 			if (radio.name == 'coachradio') {
-				$("radio[name='studentradio']").checked = false;
+				$("input[name='studentradio']").checked = false;
 				$("#studentdiv").css('display', 'none');
 				$("#coachdiv").css('display', '');
-				var ulnumber=$("ul li:eq(2)");
+				var ulnumber = $("ul li:eq(2)");
 				ulnumber.show();
 			} else {
-				$("radio[name='coachradio']").checked = false;
+				$("input[name='coachradio']").checked = false;
 				$("#coachdiv").css('display', 'none');
 				$("#studentdiv").css('display', '');
-				var ulnumber=$("ul li:eq(2)");
+				var ulnumber = $("ul li:eq(2)");
 				ulnumber.hide();
 			}
 		}
@@ -293,6 +311,24 @@ body {
 		});
 
 		$myform.focusFirst();
+
+		$(function() {
+			$("#file").change(function(e) {
+				var file = document.getElementById('file').files[0];
+				//$("#file").files[0];
+				if (!/image\/\w+/.test(file.type)) {
+					alert("文件必须为图片！");
+					return false;
+				}
+				if (file) {
+					var reader = new FileReader();
+					reader.readAsDataURL(file);
+					reader.onload = function() {
+						$("<img src='"+this.result+"' style='width:100px;height:50px;margin-left:30px'/>").appendTo("#header_div");
+					};
+				}
+			});
+		});
 	</script>
 	<div style="text-align:center;"></div>
 </body>

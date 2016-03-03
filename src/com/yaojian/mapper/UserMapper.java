@@ -10,5 +10,6 @@ public interface UserMapper{
 	boolean update(User user);
 	boolean delete(int id);
 	User findById(int id);
+	User findByUser(User user);
 	List<User> findAll();
 }

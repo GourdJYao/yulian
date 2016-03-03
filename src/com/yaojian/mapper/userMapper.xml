@@ -34,5 +34,10 @@
 		id,username,password,nickname,truename,driverslicense,updatedatetime,phonenumber,address,QQ,studentcard,idcard,headimageurl
 		from t_user_info;
 	</select>
-
+	
+	<select id="findByUser" parameterType="User" resultType="User">
+		select
+		id,username,password,nickname,truename,driverslicense,updatedatetime,phonenumber,address,QQ,studentcard,idcard,headimageurl
+		from t_user_info WHERE username=#{username} AND password=#{password};
+	</select>
 </mapper>
