@@ -19,6 +19,7 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <link href="css/normalize.css" rel="stylesheet" />
+<link href="css/loading.css" rel="stylesheet" />
 <link href="css/jquery-ui.css" rel="stylesheet" />
 <link href="css/jquery.idealforms.min.css" rel="stylesheet"
 	media="screen" />
@@ -27,7 +28,7 @@
 
 <body>
 	<form id="registerform" action="<%=basePath%>registeruser/registerUser"
-		method="post" style="margin-top: 40%;">
+		method="post" style="margin-top: 20%;">
 		<table align="center">
 			<tr>
 				<td><lable>用&nbsp;户&nbsp;名</lable></td>
@@ -40,6 +41,10 @@
 			<tr>
 				<td><lable>确认密码</lable></td>
 				<td><input type="password" name="repassword" /></td>
+			</tr>
+			<tr>
+				<td><lable>注册邮箱</lable></td>
+				<td><input type="text" name="email" /></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><input type="button" value="注册"
@@ -67,11 +72,18 @@
 			alert('密码与确认密码不能一致');
 			return false;
 		}
+		if ($("input[name='email']").val().trim() == '') {
+			alert('注册邮箱不能为空');
+			return false;
+		}
 		var form = document.forms[0];
+		$("form").before("<div class='loading'></div>");
   		$.post('<%=basePath%>registeruser/registerUser', {
 			username : $("input[name='username']").val(),
-			password :$("input[name='password']").val()
+			password :$("input[name='password']").val(),
+			email:$("input[name='email']").val()
 		}, function(data, status) {
+			$("body").find("div").detach();
 			if(data=='success'){
 				alert("注册成功~");
 				window.location.href="<%=basePath%>manager.jsp";

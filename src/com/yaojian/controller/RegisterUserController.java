@@ -27,7 +27,7 @@ public class RegisterUserController {
 	 * @return
 	 */
 	@RequestMapping(value="/registerUser" ,method={RequestMethod.POST})
-	public void registerUser(String username,String password,HttpServletRequest request,
+	public void registerUser(String username,String password,String email,HttpServletRequest request,
 			HttpServletResponse response){
 		User user=new User();
 		user.setUsername(username);
@@ -41,7 +41,6 @@ public class RegisterUserController {
 			userService.save(user);
 			result = "success";
 		}
-		System.out.print("===================");
 		try {
 			System.out.println("result:"+result);
 			out = response.getWriter();

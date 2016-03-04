@@ -51,7 +51,7 @@ public class UserTest {
 		List<User> userList = userMapper.findAll();
 		if(userList!=null&&userList.size()>0){
 			User user=userMapper.findById(userList.get(0).getId());
-			user.setNickname("GourdJYao");
+			user.setUsername("GourdJYao");
 			userMapper.update(user);
 		}
 	}

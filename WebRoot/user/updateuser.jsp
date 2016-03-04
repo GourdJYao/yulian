@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>登录管理系统</title>
+<title>My JSP 'updateuser.jsp' starting page</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -22,6 +22,7 @@
 <link href="css/jquery-ui.css" rel="stylesheet" />
 <link href="css/jquery.idealforms.min.css" rel="stylesheet"
 	media="screen" />
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -29,20 +30,7 @@
 </head>
 
 <body>
-	<form action="<%=basePath%>user/login" method="post" >
-		<table align="center" style="margin-top: 20%;">
-			<tr>
-				<td><label>用户名：</label></td>
-				<td><input name="username" type="text"/></td>
-			</tr>
-			<tr>
-				<td><label>密 &nbsp;码：</label></td>
-				<td><input name="password" type="password" /></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center"><input type="submit" value="登录"/> <a href="<%=basePath%>userregister.jsp">新用户注册</a></td>
-			</tr>
-		</table>
-	</form>
+	This is my JSP page.
+	<br>
 </body>
 </html>

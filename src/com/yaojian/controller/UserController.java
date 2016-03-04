@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yaojian.model.User;
 import com.yaojian.service.UserService;
@@ -121,32 +122,17 @@ public class UserController {
 	}
 
 	@RequestMapping("/login")
-	public void login(User user, HttpServletRequest request,
+	public String login(User user, HttpServletRequest request,
 			HttpServletResponse response) {
 		System.out.println(user.getUsername());
 		System.out.println(user.getPassword());
 		User tempUser = userService.findByUser(user);
-		String result = "";
-
-		PrintWriter out = null;
-		try {
-			if (tempUser == null) {
-				result = "失败";
-			}else{
-				result = "成功";
-			}
-			System.out.println("result:"+result);
-			out = response.getWriter();
-			response.setCharacterEncoding("UTF-8");
-			out.write(result);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (out != null) {
-				out.close();
-				out = null;
-			}
-
+		if (tempUser == null) {
+			return "失败";
+		} else {
+			request.setAttribute("user", tempUser);
+			request.getSession().setAttribute("user", tempUser);
+            return "redirect:/managermain.jsp";
 		}
 	}
 
