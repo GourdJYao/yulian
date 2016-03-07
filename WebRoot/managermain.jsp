@@ -29,7 +29,7 @@
 			<ul>
 				<li>欢迎您！</li>
 				<li><a href="#">${user.username }</a></li>
-				<li><a href="#">修改密码</a></li>
+				<li><a onclick="gotoUrl('修改密码','修改密码','<%=basePath%>user/updateuser.jsp')">修改密码</a></li>
 				<li><a href="#">设置</a></li>
 				<li><a href="#">退出</a></li>
 			</ul>
@@ -43,7 +43,7 @@
 						<span></span>系统公告
 					</h4>
 					<div class="list-item none">
-						<a onclick="gotoUrl('<%=basePath%>user/updateuser.jsp')">系统公告1</a>
+						<a onclick="gotoUrl('系统公告','系统公告1','<%=basePath%>user/updateuser.jsp')">系统公告1</a>
 						<a href=''>系统公告2</a> <a href=''>系统公告3</a> <a href=''>系统公告4</a>
 					</div>
 				</li>
@@ -129,11 +129,12 @@
 		<div class="m-right">
 			<div class="right-nav">
 				<ul>
-					<li><img src="images/home.png"></li>
+					<li>
+					<img src="images/home.png"/></li>
 					<li style="margin-left:25px;">您当前的位置：</li>
-					<li><a href="#">系统公告</a></li>
+					<li><a id="maintitlea" href="#">系统公告</a></li>
 					<li>></li>
-					<li><a href="#">最新公告</a></li>
+					<li><a id="newtitlea" href="#">最新公告</a></li>
 				</ul>
 			</div>
 			<div id="main" class="main"></div>
@@ -148,7 +149,9 @@
 	</div>
 	<script>
 		navList(12);
-		function gotoUrl(url) {
+		function gotoUrl(maintitle,childtitile,url) {
+			$("#maintitlea").text(maintitle);
+			$("#newtitlea").text(childtitile);
 			$("#main").load(url);
 			return false;
 		}

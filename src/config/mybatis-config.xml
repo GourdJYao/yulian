@@ -8,6 +8,7 @@
 		<typeAlias alias="User" type="com.yaojian.model.User" />
 		<typeAlias alias="Field" type="com.yaojian.model.Field" />
 		<typeAlias alias="Car" type="com.yaojian.mapper.CarMapper" />
+		<typeAlias alias="Coach" type="com.yaojian.mapper.CoachMapper" />
 	</typeAliases>
 	<!-- 实体接口映射资源 -->
 	<!--
@@ -16,7 +17,7 @@
 	<mappers>
 		<mapper resource="com/yaojian/mapper/userMapper.xml" />
 		<mapper resource="com/yaojian/mapper/fieldMapper.xml" />
-		<mapper resource="com/yaojian/mapper/carMapper.xml" />
+		<mapper resource="com/yaojian/mapper/coachMapper.xml" />
 	</mappers>
 
 </configuration>  

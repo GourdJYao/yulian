@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -6,31 +6,53 @@
 			+ path + "/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<base href="<%=basePath%>">
-
-<title>My JSP 'updateuser.jsp' starting page</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<link href="css/normalize.css" rel="stylesheet" />
-<link href="css/jquery-ui.css" rel="stylesheet" />
-<link href="css/jquery.idealforms.min.css" rel="stylesheet"
-	media="screen" />
-<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
-</head>
-
-<body>
-	This is my JSP page.
-	<br>
-</body>
-</html>
+<div align="center" width="100%" height="100%" style="padding-top: 20% ">
+<form>
+	<table>
+		<tr><td><lable>旧&nbsp;密&nbsp;码</lable></td><td><input type="password" name="oldpassword"/></td></tr>
+		<tr><td><lable>新&nbsp;密&nbsp;码</lable></td><td><input type="password" name="newpassword"/></td></tr>
+		<tr><td><lable>确认密码</lable></td><td><input type="password" name="newrepassword"/></td></tr>
+		<tr><td colspan="2" align="center"><input type="button" id="suerbutton" value="修改" onclick="updatepassowrd();"/><input type="reset" value="重置"/></td></tr>
+	</table>
+</form>
+</div>
+<script type="text/javascript">
+	function updatepassowrd(){
+		if($("input[name='oldpassword']").val().trim().length == 0)
+		{
+			alert('旧密码不能为空');
+			return;
+		}
+		if($("input[name='newpassword']").val().trim().length == 0)
+		{
+			alert('新密码不能为空');
+			return;
+		}
+		if($("input[name='newrepassword']").val().trim().length == 0)
+		{
+			alert('确认密码不能为空');
+			return;
+		}
+		if($("input[name='oldpassword']").val().trim()==$("input[name='newpassword']").val().trim()){
+			alert('新密码不能与旧密码一样~');
+			return;
+		}
+		var form = document.forms[0];
+		$("table").before("<div id='loading' class='loading'></div>");
+  		$.post('<%=basePath%>user/updatepassword', {
+			username :'${user.username}',
+			oldpassword :$("input[name='oldpassword']").val(),
+			newpassword:$("input[name='newpassword']").val()
+		}, function(data, status) {
+			$("body").find("loading").detach();
+			if(data=='success'){
+				alert("修改成功~");
+				return false;
+			}else{
+				var dataarry=data.split(";");
+				alert("修改失败。"+dataarry[1]);
+				return false;
+			}
+		});
+	}
+</script>

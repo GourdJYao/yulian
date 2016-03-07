@@ -128,11 +128,44 @@ public class UserController {
 		System.out.println(user.getPassword());
 		User tempUser = userService.findByUser(user);
 		if (tempUser == null) {
-			return "失败";
+			return "";
 		} else {
 			request.setAttribute("user", tempUser);
 			request.getSession().setAttribute("user", tempUser);
             return "redirect:/managermain.jsp";
+		}
+	}
+	@RequestMapping("/updatepassword")
+	public void updatepassword(String username,String oldpassword,String newpassword,HttpServletRequest request,
+			HttpServletResponse response) {
+		System.out.println("username:"+username);
+		System.out.println("oldpassword:"+oldpassword);
+		System.out.println("newpassword:"+newpassword);
+		User myUser=new User();
+		myUser.setUsername(username);
+		myUser.setPassword(oldpassword);
+		myUser = userService.findByUser(myUser);
+		String result = "";
+		PrintWriter out = null;
+		if(myUser==null){
+			result = "fail;密码不正确";
+		}else{
+			myUser.setPassword(newpassword);
+			userService.update(myUser);
+			result = "success";
+		}
+		try {
+			System.out.println("result:"+result);
+			out = response.getWriter();
+			response.setCharacterEncoding("UTF-8");
+			out.write(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (out != null) {
+				out.close();
+				out = null;
+			}
 		}
 	}
 
