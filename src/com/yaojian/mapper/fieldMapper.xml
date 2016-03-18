@@ -6,13 +6,13 @@
 
 	<insert id="save" parameterType="Field">
 		insert into
-		t_field_info(fieldname,fieldphoto,fieldaddress)
-		values(#{fieldname},#{fieldphoto},#{fieldaddress})
+		t_field_info(fieldname,fieldphoto,fieldaddress,createdate)
+		values(#{fieldname},#{fieldphoto},#{fieldaddress},#{createdate})
 	</insert>
 
 	<update id="update" parameterType="Field">
 		update t_field_info set
-		id=#{id},fieldname=#{fieldname},fieldphoto=#{fieldphoto},fieldaddress=#{fieldaddress}
+		id=#{id},fieldname=#{fieldname},fieldphoto=#{fieldphoto},fieldaddress=#{fieldaddress},createdate=#{createdate}
 		where id=#{id}
 	</update>
 
@@ -24,14 +24,14 @@
 	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
 	<select id="findById" parameterType="int" resultType="Field">
 		select
-		id,fieldname,fieldphoto,fieldaddress
+		id,fieldname,fieldphoto,fieldaddress,createdate
 		from t_field_info where
 		id=#{id};
 	</select>
 
 	<select id="findAll" resultType="Field">
 		select
-		id,fieldname,fieldphoto,fieldaddress
+		id,fieldname,fieldphoto,fieldaddress,createdate
 		from t_field_info;
 	</select>
 

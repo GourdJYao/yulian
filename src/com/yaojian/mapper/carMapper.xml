@@ -4,15 +4,42 @@
 <!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
 <mapper namespace="com.yaojian.mapper.CarMapper">
 
+	<resultMap id="resourceResultMap" type="com.yaojian.model.Car">
+		<id column="id" property="id" />
+		<result column="platenumber" property="platenumber" />
+		<result column="cartype" property="cartype" />
+		<result column="carimage" property="carimage" />
+		<result column="createdate" property="createdate" />
+	</resultMap>
+
+	<resultMap id="coachMap" type="com.yaojian.model.Car"
+		extends="resourceResultMap">
+		<collection property="coachList" ofType="com.yaojian.model.Coach">
+			<id column="id" property="id" />
+			<result column="coachname" property="coachname" />
+			<result column="coachcardnumber" property="coachcardnumber" />
+			<result column="coachcardimage" property="coachcardimage" />
+			<result column="coachidcardnumber" property="coachidcardnumber" />
+			<result column="coachidcardimage" property="coachidcardimage" />
+			<result column="coachdesc" property="coachdesc" />
+			<result column="coachdate" property="coachdate" />
+			<result column="isreview" property="isreview" />
+			<result column="reviewdesc" property="reviewdesc" />
+			<result column="userid" property="userid" />
+			<result column="coachiddrivercarno" property="coachiddrivercarno" />
+			<result column="coachiddrviercarimg" property="coachiddrviercarimg" />
+		</collection>
+	</resultMap>
+
 	<insert id="save" parameterType="Car">
 		insert into
-		t_car_info(platenumber,cartype,carimage)
-		values(#{platenumber},#{cartype},#{carimage});
+		t_car_info(platenumber,cartype,carimage,createdate)
+		values(#{platenumber},#{cartype},#{carimage},#{createdate});
 	</insert>
 
 	<update id="update" parameterType="Car">
 		update t_car_info set
-		id=#{id},platenumber=#{platenumber},cartype=#{cartype},carimage=#{carimage}
+		id=#{id},platenumber=#{platenumber},cartype=#{cartype},carimage=#{carimage},createdate=#{createdate}
 		where id=#{id};
 	</update>
 
@@ -24,14 +51,14 @@
 	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
 	<select id="findById" parameterType="int" resultType="Car">
 		select
-		id,platenumber,cartype,carimage
+		id,platenumber,cartype,carimage,createdate
 		from t_car_info where
 		id=#{id};
 	</select>
 
 	<select id="findAll" resultType="Car">
 		select
-		id,platenumber,cartype,carimage
+		id,platenumber,cartype,carimage,createdate
 		from t_car_info;
 	</select>
 

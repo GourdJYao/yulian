@@ -4,10 +4,53 @@
 <!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
 <mapper namespace="com.yaojian.mapper.CoachMapper">
 
+	<resultMap id="resourceResultMap" type="com.yaojian.model.Coach">
+		<id column="id" property="id" />
+		<result column="coachname" property="coachname" />
+		<result column="coachcardnumber" property="coachcardnumber" />
+		<result column="coachcardimage" property="coachcardimage" />
+		<result column="coachidcardnumber" property="coachidcardnumber" />
+		<result column="coachidcardimage" property="coachidcardimage" />
+		<result column="coachdesc" property="coachdesc" />
+		<result column="coachdate" property="coachdate" />
+		<result column="isreview" property="isreview" />
+		<result column="reviewdesc" property="reviewdesc" />
+		<result column="userid" property="userid" />
+		<result column="coachiddrivercarno" property="coachiddrivercarno" />
+		<result column="coachiddrviercarimg" property="coachiddrviercarimg" />
+	</resultMap>
+	<resultMap id="coachCarMap" type="com.yaojian.model.Coach"
+		extends="resourceResultMap">
+		<collection property="carlist" ofType="com.yaojian.model.Car">
+			<id column="id" property="id" />
+			<result column="platenumber" property="platenumber" />
+			<result column="cartype" property="cartype" />
+			<result column="carimage" property="carimage" />
+			<result column="createdate" property="createdate" />
+		</collection>
+	</resultMap>
+
+	<resultMap id="coachFildMap" type="com.yaojian.model.Coach"
+		extends="coachCarMap">
+		<collection property="fieldlist" ofType="com.yaojian.model.Field">
+			<id column="id" property="id" />
+			<result column="fieldname" property="fieldname" />
+			<result column="fieldphoto" property="fieldphoto" />
+			<result column="fieldaddress" property="fieldaddress" />
+			<result column="createdate" property="createdate" />
+		</collection>
+	</resultMap>
+
+
 	<insert id="save" parameterType="Coach">
 		insert into
-		t_coach_info(coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate)
-		values(#{coachname},#{coachcardnumber},#{coachcardimage},#{coachidcardnumber},#{coachidcardimage},#{coachdesc},#{coachdate});
+		t_coach_info(coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate,isreview,reviewdesc,userid,coachiddrivercarno,coachiddrviercarimg)
+		values(#{coachname},#{coachcardnumber},#{coachcardimage},#{coachidcardnumber},#{coachidcardimage},#{coachdesc},#{coachdate},#{isreview},#{reviewdesc},#{userid},#{coachiddrivercarno},#{coachiddrviercarimg});
+	</insert>
+	<insert id="saveCoachCar" parameterType="com.yaojian.model.CoachCarLink">
+		insert into
+		t_user_car_temp(userid,carid,createdate)
+		values(#{coach.userid},#{car.carid},#{createdate});
 	</insert>
 
 	<update id="update" parameterType="Coach">
@@ -18,7 +61,10 @@
 		coachidcardnumber=#{coachidcardnumber},
 		coachidcardimage=#{coachidcardimage},
 		coachdesc=#{coachdesc},
-		coachdate=#{coachdate}
+		coachdate=#{coachdate},
+		isreview=#{isreview},
+		reviewdesc=#{reviewdesc},
+		userid=#{userid},coachiddrivercarno=#{coachiddrivercarno},coachiddrviercarimg=#{coachiddrviercarimg}
 		where id=#{id}
 	</update>
 
@@ -30,21 +76,34 @@
 	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
 	<select id="findById" parameterType="int" resultType="Coach">
 		select
-		id,coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate
+		id,coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate,isreview,reviewdesc,userid,coachiddrivercarno,coachiddrviercarimg
 		from t_coach_info where
 		id=#{id};
 	</select>
 
-	<select id="findAll" resultType="Coach">
+	<select id="findAll" resultMap="resourceResultMap">
 		select
-		id,coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate
+		id,coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate,isreview,reviewdesc,userid,coachiddrivercarno,coachiddrviercarimg
 		from t_coach_info;
+	</select>
+
+	<select id="findCoachCarfield" resultMap="coachFildMap">
+		SELECT
+		tci.id,tci.coachname,tci.coachcardnumber,tci.coachcardimage,tci.coachdesc,tci.coachdate,tci.isreview,tci.reviewdesc,tci.userid,tci.coachiddrivercarno,tci.coachiddrviercarimg,
+		tcai.id,tcai.platenumber,tcai.cartype,tcai.carimage,tcai.createdate,
+		tfii.id,tfii.fieldname,tfii.fieldphoto,tfii.fieldaddress,tfii.createdate
+		FROM t_coach_info tci
+		LEFT JOIN t_user_car_temp tuct ON tci.id=tuct.userid
+		LEFT JOIN t_car_info tcai ON tcai.id=tuct.carid
+		LEFT JOIN t_user_field_temp tuft ON tci.id=tuft.userid
+		LEFT JOIN t_field_info tfii ON tuft.fieldid=tfii.id;
 	</select>
 
 	<select id="findByCoach" parameterType="Coach" resultType="Coach">
 		select
-		id,coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate
-		from t_coach_info WHERE
-		coachname=#{coachname} AND coachcardnumber=#{coachcardnumber};
+		id,coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate,isreview,reviewdesc,userid,coachiddrivercarno,coachiddrviercarimg
+		from t_coach_info WHERE.
+		coachname=#{coachname} AND
+		coachcardnumber=#{coachcardnumber};
 	</select>
 </mapper>

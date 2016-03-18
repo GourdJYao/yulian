@@ -47,6 +47,7 @@
 			$("body").find("loading").detach();
 			if(data=='success'){
 				alert("修改成功~");
+				location.href='<%=basePath%>';
 				return false;
 			}else{
 				var dataarry=data.split(";");

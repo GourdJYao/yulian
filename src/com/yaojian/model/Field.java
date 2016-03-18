@@ -1,10 +1,15 @@
 package com.yaojian.model;
 
+import java.sql.Date;
+import java.util.List;
+
 public class Field {
 	private Integer id;
 	private String fieldname;
 	private String fieldphoto;
 	private String fieldaddress;
+	private Date createdate= new java.sql.Date(new java.util.Date().getTime());
+	private List<Coach> coachList;
 
 	public Field() {
 	}
@@ -39,6 +44,22 @@ public class Field {
 
 	public void setFieldaddress(String fieldaddress) {
 		this.fieldaddress = fieldaddress;
+	}
+
+	public List<Coach> getCoachList() {
+		return coachList;
+	}
+
+	public void setCoachList(List<Coach> coachList) {
+		this.coachList = coachList;
+	}
+
+	public Date getCreatedate() {
+		return createdate;
+	}
+
+	public void setCreatedate(Date createdate) {
+		this.createdate = createdate;
 	}
 
 }

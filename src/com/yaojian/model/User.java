@@ -14,6 +14,7 @@ public class User {
 	private String password;
 	private String email;
 	private Date updatedate = new java.sql.Date(new java.util.Date().getTime());
+	
 	public Integer getId() {
 		return id;
 	}

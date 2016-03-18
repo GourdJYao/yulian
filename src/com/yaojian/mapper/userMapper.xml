@@ -3,6 +3,14 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
 <mapper namespace="com.yaojian.mapper.UserMapper">
+    
+    <resultMap id="resourceResultMap" type="com.yaojian.model.User">
+		<result column="id" property="id" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="email" property="email" />
+		<result column="updatedate" property="updatedate" />
+	</resultMap>
 
 	<insert id="save" parameterType="User">
 		insert into
