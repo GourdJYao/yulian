@@ -10,4 +10,5 @@ public interface CarMapper {
 	boolean delete(Integer id);
 	Car findById(Integer id);
 	List<Car> findAll();
+	Car findCarAndCoach(Integer id);
 }

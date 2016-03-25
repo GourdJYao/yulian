@@ -37,8 +37,8 @@ public class FieldTest {
 	public void testFindById(){
 		List<Field> FieldList = fieldMapper.findAll();
 		if(FieldList!=null&&FieldList.size()>0){
-			Field Field=fieldMapper.findById(FieldList.get(0).getId());
-			System.out.println(Field.getId());
+			Field Field=fieldMapper.findById(FieldList.get(0).getField_id());
+			System.out.println(Field.getField_id());
 			System.out.println(Field.getFieldname());
 		}
 	}
@@ -48,9 +48,20 @@ public class FieldTest {
 	public void testUpdate(){
 		List<Field> FieldList = fieldMapper.findAll();
 		if(FieldList!=null&&FieldList.size()>0){
-			Field Field=fieldMapper.findById(FieldList.get(0).getId());
+			Field Field=fieldMapper.findById(FieldList.get(0).getField_id());
 			Field.setFieldname("GourdJYao");
 			fieldMapper.update(Field);
+		}
+	}
+	
+	@Test
+	public void testFindFieldAndCoach(){
+		List<Field> FieldList = fieldMapper.findAll();
+		if(FieldList!=null&&FieldList.size()>0){
+			Field Field=fieldMapper.findFieldAndCoach(FieldList.get(0).getField_id());
+			if(Field!=null&&Field.getCoachList()!=null){
+				System.out.println("====================="+Field.getCoachList().size());
+			}
 		}
 	}
 	

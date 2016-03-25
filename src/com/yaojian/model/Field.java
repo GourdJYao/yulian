@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 public class Field {
-	private Integer id;
+	private Integer field_id;
 	private String fieldname;
 	private String fieldphoto;
 	private String fieldaddress;
@@ -14,13 +14,16 @@ public class Field {
 	public Field() {
 	}
 
-	public Integer getId() {
-		return id;
+
+	public Integer getField_id() {
+		return field_id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+
+	public void setField_id(Integer field_id) {
+		this.field_id = field_id;
 	}
+
 
 	public String getFieldname() {
 		return fieldname;

@@ -18,29 +18,21 @@
 		<result column="userid" property="userid" />
 		<result column="coachiddrivercarno" property="coachiddrivercarno" />
 		<result column="coachiddrviercarimg" property="coachiddrviercarimg" />
-	</resultMap>
-	<resultMap id="coachCarMap" type="com.yaojian.model.Coach"
-		extends="resourceResultMap">
 		<collection property="carlist" ofType="com.yaojian.model.Car">
-			<id column="id" property="id" />
+			<id column="car_id" property="car_id" />
 			<result column="platenumber" property="platenumber" />
 			<result column="cartype" property="cartype" />
 			<result column="carimage" property="carimage" />
 			<result column="createdate" property="createdate" />
 		</collection>
-	</resultMap>
-
-	<resultMap id="coachFildMap" type="com.yaojian.model.Coach"
-		extends="coachCarMap">
 		<collection property="fieldlist" ofType="com.yaojian.model.Field">
-			<id column="id" property="id" />
+			<id column="field_id" property="field_id" />
 			<result column="fieldname" property="fieldname" />
 			<result column="fieldphoto" property="fieldphoto" />
 			<result column="fieldaddress" property="fieldaddress" />
 			<result column="createdate" property="createdate" />
 		</collection>
 	</resultMap>
-
 
 	<insert id="save" parameterType="Coach">
 		insert into
@@ -87,22 +79,32 @@
 		from t_coach_info;
 	</select>
 
-	<select id="findCoachCarfield" resultMap="coachFildMap">
+	<select id="findCoachCarfield" parameterType="int" resultMap="resourceResultMap">
 		SELECT
 		tci.id,tci.coachname,tci.coachcardnumber,tci.coachcardimage,tci.coachdesc,tci.coachdate,tci.isreview,tci.reviewdesc,tci.userid,tci.coachiddrivercarno,tci.coachiddrviercarimg,
-		tcai.id,tcai.platenumber,tcai.cartype,tcai.carimage,tcai.createdate,
-		tfii.id,tfii.fieldname,tfii.fieldphoto,tfii.fieldaddress,tfii.createdate
+		tcai.car_id,tcai.platenumber,tcai.cartype,tcai.carimage,tcai.createdate,
+		tfii.field_id,tfii.fieldphoto,tfii.fieldname,tfii.fieldaddress,tfii.createdate
 		FROM t_coach_info tci
 		LEFT JOIN t_user_car_temp tuct ON tci.id=tuct.userid
-		LEFT JOIN t_car_info tcai ON tcai.id=tuct.carid
-		LEFT JOIN t_user_field_temp tuft ON tci.id=tuft.userid
-		LEFT JOIN t_field_info tfii ON tuft.fieldid=tfii.id;
+		LEFT JOIN t_car_info tcai ON tcai.car_id=tuct.carid 
+		LEFT JOIN t_user_field_temp tuft ON tuft.userid=tci.id 
+		LEFT JOIN t_field_info tfii ON tuft.fieldid=tfii.field_id WHERE tci.id=#{id};
 	</select>
+	
+	<insert id="insertCarRelativity" parameterType="com.yaojian.model.CoachCarLink" >
+	     insert into t_user_car_temp(userid,carid)  
+         values(#{coach.id},#{car.car_id});  
+	</insert>
+	
+	<insert id="insertFieldRelativity" parameterType="com.yaojian.model.CoachFieldLink" >
+	     insert into t_user_field_temp(userid,fieldid)  
+         values(#{coach.id},#{field.field_id});  
+	</insert>
 
 	<select id="findByCoach" parameterType="Coach" resultType="Coach">
 		select
 		id,coachname,coachcardnumber,coachcardimage,coachidcardnumber,coachidcardimage,coachdesc,coachdate,isreview,reviewdesc,userid,coachiddrivercarno,coachiddrviercarimg
-		from t_coach_info WHERE.
+		from t_coach_info WHERE
 		coachname=#{coachname} AND
 		coachcardnumber=#{coachcardnumber};
 	</select>

@@ -38,8 +38,8 @@ public class CarTest {
 	public void testFindById(){
 		List<Car> carList = carMapper.findAll();
 		if(carList!=null&&carList.size()>0){
-			Car car=carMapper.findById(carList.get(0).getId());
-			System.out.println(car.getId());
+			Car car=carMapper.findById(carList.get(0).getCar_id());
+			System.out.println(car.getCar_id());
 			System.out.println(car.getPlatenumber());
 		}
 	}
@@ -49,7 +49,7 @@ public class CarTest {
 	public void testUpdate(){
 		List<Car> CarList = carMapper.findAll();
 		if(CarList!=null&&CarList.size()>0){
-			Car Car=carMapper.findById(CarList.get(0).getId());
+			Car Car=carMapper.findById(CarList.get(0).getCar_id());
 			Car.setPlatenumber("EDDAFDA");
 			carMapper.update(Car);
 		}

@@ -10,4 +10,5 @@ public interface FieldMapper {
 	boolean delete(int id);
 	Field findById(int id);
 	List<Field> findAll();
+	Field findFieldAndCoach(int id);
 }

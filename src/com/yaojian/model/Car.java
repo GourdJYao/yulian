@@ -4,19 +4,19 @@ import java.sql.Date;
 import java.util.List;
 
 public class Car {
-	private Integer id;
+	private Integer car_id;
 	private String platenumber;
 	private Integer cartype = 0;
 	private String carimage;
 	private List<Coach> coachList;
 	private Date createdate = new java.sql.Date(new java.util.Date().getTime());
 
-	public Integer getId() {
-		return id;
+	public Integer getCar_id() {
+		return car_id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setCar_id(Integer car_id) {
+		this.car_id = car_id;
 	}
 
 	public String getPlatenumber() {

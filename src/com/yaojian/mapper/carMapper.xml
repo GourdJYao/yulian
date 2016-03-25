@@ -5,7 +5,7 @@
 <mapper namespace="com.yaojian.mapper.CarMapper">
 
 	<resultMap id="resourceResultMap" type="com.yaojian.model.Car">
-		<id column="id" property="id" />
+		<id column="car_id" property="car_id" />
 		<result column="platenumber" property="platenumber" />
 		<result column="cartype" property="cartype" />
 		<result column="carimage" property="carimage" />
@@ -39,26 +39,34 @@
 
 	<update id="update" parameterType="Car">
 		update t_car_info set
-		id=#{id},platenumber=#{platenumber},cartype=#{cartype},carimage=#{carimage},createdate=#{createdate}
-		where id=#{id};
+		card_id=#{card_id},platenumber=#{platenumber},cartype=#{cartype},carimage=#{carimage},createdate=#{createdate}
+		where card_id=#{card_id};
 	</update>
 
 	<delete id="delete" parameterType="int">
 		delete from t_car_info where
-		id=#{id};
+		card_id=#{card_id};
 	</delete>
 
 	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
 	<select id="findById" parameterType="int" resultType="Car">
 		select
-		id,platenumber,cartype,carimage,createdate
+		card_id,platenumber,cartype,carimage,createdate
 		from t_car_info where
-		id=#{id};
+		card_id=#{card_id};
+	</select>
+	
+	<select id="findCarAndCoach" parameterType="int" resultMap="coachMap">
+	    SELECT
+		tcai.car_id,tcai.platenumber,tcai.cartype,tcai.carimage,tcai.createdate,tci.id,tci.coachname,tci.coachcardnumber,tci.coachcardimage,tci.coachdesc,tci.coachdate,tci.isreview,tci.reviewdesc,tci.userid,tci.coachiddrivercarno,tci.coachiddrviercarimg
+		FROM t_car_info tcai
+		LEFT JOIN t_user_car_temp tuct ON tcai.car_id=tuct.carid
+		LEFT JOIN t_coach_info tci ON  tci.id=tuct.userid  WHERE tcai.car_id=#{id};
 	</select>
 
 	<select id="findAll" resultType="Car">
 		select
-		id,platenumber,cartype,carimage,createdate
+		card_id,platenumber,cartype,carimage,createdate
 		from t_car_info;
 	</select>
 

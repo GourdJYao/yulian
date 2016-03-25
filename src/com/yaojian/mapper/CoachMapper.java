@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yaojian.model.Coach;
 import com.yaojian.model.CoachCarLink;
+import com.yaojian.model.CoachFieldLink;
 
 public interface CoachMapper{
 
@@ -14,5 +15,7 @@ public interface CoachMapper{
 	Coach findById(int id);
 	Coach findByCoach(Coach coach);
 	List<Coach> findAll();
-	List<Coach> findCoachCarfield();
+	List<Coach> findCoachCarfield(int id);
+	void insertCarRelativity(CoachCarLink coachCarLink);
+	void insertFieldRelativity(CoachFieldLink coachFieldLink);
 }

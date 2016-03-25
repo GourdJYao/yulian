@@ -43,7 +43,7 @@
 						<span></span>系统公告
 					</h4>
 					<div class="list-item none">
-						<a onclick="gotoUrl('系统公告','系统公告1','<%=basePath%>user/updateuser.jsp')">系统公告1</a>
+						<a onclick="gotoUrl('系统公告','系统公告1','<%=basePath%>upload/upload.jsp')">系统公告1</a>
 						<a href=''>系统公告2</a> <a href=''>系统公告3</a> <a href=''>系统公告4</a>
 					</div>
 				</li>

@@ -29,17 +29,19 @@ public class CoachTest {
 	}
 	@Test
 	public void testFindCoachCarfield() {
-		List<Coach> coachList = coachMapper.findCoachCarfield();
+		List<Coach> coachList = coachMapper.findCoachCarfield(1);
 		if(coachList!=null){
 			System.out.println(coachList.size());
 			for(Coach coach:coachList){
 				if(coach.getCarlist()!=null){
 					for(Car car:coach.getCarlist()){
 						System.out.println("========"+car.getPlatenumber());
+						System.out.println("========"+car.getCar_id());
 					}
 				}
 				if(coach.getFieldlist()!=null){
 					for(Field field:coach.getFieldlist()){
+						System.out.println("========"+field.getFieldname());
 						System.out.println("========"+field.getFieldname());
 					}
 				}
