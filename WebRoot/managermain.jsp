@@ -131,7 +131,7 @@
 		<div class="m-right">
 			<div class="right-nav">
 				<ul>
-					<li><img src="<%=basePath%>images/home.jpg" /></li>
+					<li><img src="<%=basePath%>images/home.png" /></li>
 					<li style="margin-left:25px;">您当前的位置：</li>
 					<li><a id="maintitlea" href="#">系统公告</a></li>
 					<li>></li>
