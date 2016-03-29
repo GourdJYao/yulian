@@ -6,10 +6,10 @@
 			+ path + "/";
 %>
 <input type="file" id="uploadFile" name="uploadFile" onchange="uploadImage();" multiple/>
-<div id="imgDiv">
+<br/>
+<div id="imgDiv" hidden="hidden">
+<img id="images" width="10%" height="20%"/>
 </div>
-<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="js/menu.js"></script>
 <script type="text/javascript" src="js/ajaxfileupload.js"></script>
  <script type="text/javascript">
         function uploadImage() {
@@ -32,17 +32,16 @@
                 fileElementId : 'uploadFile', 
                 url: '<%=basePath%>file/upload',
                 data:{username:'${user.username}'},
+                dataType: 'json',
                 cache: false,
-                success: function(data) {
-                    alert("上传成功");
-                	alert("data:"+data);
-                    $("#imgDiv").empty();
-                    $("#imgDiv").html(data);
+                success: function(data, status) {
+                    imageUrl='<%=basePath%>'+data.photoUrl;
+                    $("#images").attr('src',imageUrl);
                     $("#imgDiv").show();
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     alert("上传失败，请检查网络后重试");
                 }
             });
-        }
+        };
     </script>

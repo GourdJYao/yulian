@@ -78,7 +78,7 @@ public class UploadFileController {
 		}
 		System.out.println("pathDir+fileName:"+(pathDir+fileName));
 		Map<String,String> jsonMap=new HashMap<String, String>();
-		jsonMap.put("photoUrl", pathDir+fileName);
+		jsonMap.put("photoUrl", pathDir.substring(1)+fileName);
 		return jsonMap;
 	}
 }
