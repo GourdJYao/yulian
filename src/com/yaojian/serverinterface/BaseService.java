@@ -23,7 +23,6 @@ public abstract class BaseService {
 		
 		return resultMap;
 	}
-	
 	protected abstract Object returnResult();
 	
 }
