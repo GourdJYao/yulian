@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.yaojian.model.User;
+import com.yaojian.serverinterface.BaseService;
 
 @Controller
 @RequestMapping("/file")
@@ -25,7 +26,7 @@ public class UploadFileController {
 	
 	@ResponseBody 
 	@RequestMapping("/upload")
-	public Map<String,String> upload(HttpServletRequest request,
+	public Map<String,Object> upload(HttpServletRequest request,
 			HttpServletResponse response) throws IllegalStateException,
 			IOException {
 		
@@ -77,8 +78,9 @@ public class UploadFileController {
 
 		}
 		System.out.println("pathDir+fileName:"+(pathDir+fileName));
-		Map<String,String> jsonMap=new HashMap<String, String>();
+		BaseService baseService=new BaseService();
+		HashMap<String,Object> jsonMap=new HashMap<String, Object>();
 		jsonMap.put("photoUrl", pathDir.substring(1)+fileName);
-		return jsonMap;
+		return baseService.getResposeBody("UPLOAD_FILE_REQ", jsonMap);
 	}
 }

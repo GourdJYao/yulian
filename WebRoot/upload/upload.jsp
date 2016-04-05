@@ -35,7 +35,7 @@
                 dataType: 'json',
                 cache: false,
                 success: function(data, status) {
-                    imageUrl='<%=basePath%>'+data.photoUrl;
+                    imageUrl='<%=basePath%>'+data.result.photoUrl;
                     $("#images").attr('src',imageUrl);
                     $("#imgDiv").show();
                 },
