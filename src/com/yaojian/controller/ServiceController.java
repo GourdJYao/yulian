@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yaojian.model.User;
 import com.yaojian.service.UserService;
+import com.yaojian.utils.StringUtils;
 
 @Controller
 // @RequestMapping("/yuelianservice")
@@ -41,8 +41,10 @@ public class ServiceController {
 	private static final String MESSAGEERROR_CODE_STRING = "0x000001";
 	private static final String MESSAGEERROR_SUCCESS_CODE_STRING = "0x000000";
 	private static final String MESSAGEERROR_USEREXISTS_CODE_STRING = "0x100001";
+	private static final String MESSAGEERROR_USERLONIN_CODE_STRING = "0x100002";
 
 	private static final String REGISTER_PARAMS_STRING = "REGISTER_REQ";
+	private static final String LOGIN_PARAMS_STRING = "LOGIN_REQ";
 
 	@ResponseBody
 	@RequestMapping("/service")
@@ -65,14 +67,51 @@ public class ServiceController {
 				if (messageType.equals(REGISTER_PARAMS_STRING)) {
 					// 注册逻辑
 					return registerUser(resultJSONObject);
-				} else {
-
+				} else if (messageType.equals(LOGIN_PARAMS_STRING)){
+					// 登录逻辑
+					return login(resultJSONObject);
 				}
 			}
 		}
 		return null;
 	}
-
+	
+	private Map<String, Object> login(JSONObject jsonObject) {
+		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
+		if (paramsObject == null) {
+			return getResponseMessage(MESSAGEERROR_RSP_STRING,
+					MESSAGEERROR_MESSAGE_STRING, VERSION_STRING,
+					MESSAGEERROR_CODE_STRING, null);
+		} else {
+			String username = paramsObject.getString("username");
+			String password = paramsObject.getString("password");
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(password);
+			User tempUser = userService.findByUser(user);
+			Map<String, Object> resultMap = null;
+			String messageType = jsonObject
+					.getString(MESSAGETYPE_PARAMS_STRING);
+			String version= jsonObject
+					.getString(VERSION_PARAMS_STRING);
+			if (tempUser != null) {
+				resultMap=new HashMap<String, Object>();
+				String token=StringUtils.getToken(username, password);
+				tempUser.setToken(token);
+				userService.update(tempUser);
+				resultMap.put("token", token);
+				resultMap.put("username", username);
+				resultMap.put("password", password);
+				return getResponseMessage(messageType,
+						"成功", version,
+						MESSAGEERROR_SUCCESS_CODE_STRING, resultMap);
+			} else {
+				return getResponseMessage(messageType,
+						"为注册用户", version,
+						MESSAGEERROR_USERLONIN_CODE_STRING, resultMap);
+			}
+		}
+	}
 	private Map<String, Object> registerUser(JSONObject jsonObject) {
 		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
 		if (paramsObject == null) {

@@ -23,7 +23,8 @@ public class HttpTest {
 			connetion.setDoInput(true);
 			connetion.setDoOutput(true);
 			out = connetion.getOutputStream();
-			out.write(getRegisterBody().getBytes("UTF-8"));
+//			out.write(getRegisterBody().getBytes("UTF-8"));
+			out.write(getLoginBody().getBytes("UTF-8"));
 			in = connetion.getInputStream();
 			int i = -1;
 			String s = "";
@@ -54,6 +55,10 @@ public class HttpTest {
 
 	private static String getRegisterBody() {
 		String body = "{\"version\":\"v1.0\",\"messagetype\":\"REGISTER_REQ\",\"params\":{\"username\":\"yaojian1\",\"password\":\"yaojian1\",\"usertype\":1}}";
+		return body;
+	}
+	private static String getLoginBody() {
+		String body = "{\"version\":\"v1.0\",\"messagetype\":\"LOGIN_REQ\",\"params\":{\"username\":\"yaojian1\",\"password\":\"yaojian1\"}}";
 		return body;
 	}
 

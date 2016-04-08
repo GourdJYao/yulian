@@ -11,17 +11,18 @@
 		<result column="email" property="email" />
 		<result column="updatedate" property="updatedate" />
 		<result column="usertype" property="usertype" />
+		<result column="token" property="token" />
 	</resultMap>
 
 	<insert id="save" parameterType="User">
 		insert into
-		t_user_info(username,password,email,updatedate,usertype)
-		values(#{username},#{password},#{email},#{updatedate},#{usertype});
+		t_user_info(username,password,email,updatedate,usertype,token)
+		values(#{username},#{password},#{email},#{updatedate},#{usertype},#{token});
 	</insert>
 
 	<update id="update" parameterType="User">
 		update t_user_info set
-		id=#{id},username=#{username},password=#{password},email=#{email},updatedate=#{updatedate},usertype=#{usertype}
+		id=#{id},username=#{username},password=#{password},email=#{email},updatedate=#{updatedate},usertype=#{usertype},token=#{token}
 		where id=#{id}
 	</update>
 
@@ -33,20 +34,20 @@
 	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
 	<select id="findById" parameterType="int" resultType="User">
 		select
-		id,username,password,email,updatedate,usertype
+		id,username,password,email,updatedate,usertype,token
 		from t_user_info where
 		id=#{id};
 	</select>
 
 	<select id="findAll" resultType="User">
 		select
-		id,username,password,email,updatedate,usertype
+		id,username,password,email,updatedate,usertype,token
 		from t_user_info;
 	</select>
 	
 	<select id="findByUser" parameterType="User" resultType="User">
 		select
-		id,username,password,email,updatedate,usertype
+		id,username,password,email,updatedate,usertype,token
 		from t_user_info WHERE username=#{username} AND password=#{password};
 	</select>
 </mapper>

@@ -14,6 +14,7 @@ public class User {
 	private String password;
 	private String email;
 	private Integer usertype;
+	private String token;
 	private Date updatedate = new java.sql.Date(new java.util.Date().getTime());
 	
 	public Integer getId() {
@@ -51,6 +52,12 @@ public class User {
 	}
 	public void setUsertype(Integer usertype) {
 		this.usertype = usertype;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 }
