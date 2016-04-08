@@ -13,6 +13,7 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
+	private Integer usertype;
 	private Date updatedate = new java.sql.Date(new java.util.Date().getTime());
 	
 	public Integer getId() {
@@ -45,4 +46,11 @@ public class User {
 	public void setUpdatedate(Date updatedate) {
 		this.updatedate = updatedate;
 	}
+	public Integer getUsertype() {
+		return usertype;
+	}
+	public void setUsertype(Integer usertype) {
+		this.usertype = usertype;
+	}
+	
 }
