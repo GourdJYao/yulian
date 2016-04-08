@@ -45,6 +45,7 @@ public class ServiceController {
 
 	private static final String REGISTER_PARAMS_STRING = "REGISTER_REQ";
 	private static final String LOGIN_PARAMS_STRING = "LOGIN_REQ";
+	private static final String UPDATEUSER_PARAMS_STRING = "UPDATEUSER_REQ";
 
 	@ResponseBody
 	@RequestMapping("/service")
@@ -70,10 +71,50 @@ public class ServiceController {
 				} else if (messageType.equals(LOGIN_PARAMS_STRING)){
 					// 登录逻辑
 					return login(resultJSONObject);
+				} else if (messageType.equals(UPDATEUSER_PARAMS_STRING)){
+					// 登录逻辑
+					return login(resultJSONObject);
 				}
 			}
 		}
 		return null;
+	}
+	
+	private Map<String, Object> updateUser(JSONObject jsonObject) {
+		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
+		if (paramsObject == null) {
+			return getResponseMessage(MESSAGEERROR_RSP_STRING,
+					MESSAGEERROR_MESSAGE_STRING, VERSION_STRING,
+					MESSAGEERROR_CODE_STRING, null);
+		} else {
+			String username = paramsObject.getString("username");
+			String password = paramsObject.getString("password");
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(password);
+			User tempUser = userService.findByUser(user);
+			Map<String, Object> resultMap = null;
+			String messageType = jsonObject
+					.getString(MESSAGETYPE_PARAMS_STRING);
+			String version= jsonObject
+					.getString(VERSION_PARAMS_STRING);
+			if (tempUser != null) {
+				resultMap=new HashMap<String, Object>();
+				String token=StringUtils.getToken(username, password);
+				tempUser.setToken(token);
+				userService.update(tempUser);
+				resultMap.put("token", token);
+				resultMap.put("username", username);
+				resultMap.put("password", password);
+				return getResponseMessage(messageType,
+						"成功", version,
+						MESSAGEERROR_SUCCESS_CODE_STRING, resultMap);
+			} else {
+				return getResponseMessage(messageType,
+						"为注册用户", version,
+						MESSAGEERROR_USERLONIN_CODE_STRING, resultMap);
+			}
+		}
 	}
 	
 	private Map<String, Object> login(JSONObject jsonObject) {
