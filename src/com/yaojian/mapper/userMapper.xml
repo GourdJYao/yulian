@@ -12,17 +12,27 @@
 		<result column="updatedate" property="updatedate" />
 		<result column="usertype" property="usertype" />
 		<result column="token" property="token" />
+		<result column="headimageurl" property="headimageurl" />
+		<result column="nickname" property="nickname" />
+		<result column="bloodtype" property="bloodtype" />
+		<result column="birthday" property="birthday" />
+		<result column="hobby" property="hobby" />
+		<result column="address" property="address" />
+		<result column="sex" property="sex" />
 	</resultMap>
 
 	<insert id="save" parameterType="User">
 		insert into
-		t_user_info(username,password,email,updatedate,usertype,token)
-		values(#{username},#{password},#{email},#{updatedate},#{usertype},#{token});
+		t_user_info(username,password,email,updatedate,usertype,token,headimageurl,nickname,bloodtype,birthday,hobby,address,sex)
+		values(#{username},#{password},#{email},#{updatedate},#{usertype},#{token},#{headimageurl},#{nickname},#{bloodtype},
+		#{birthday},#{hobby},#{address},#{sex});
 	</insert>
 
 	<update id="update" parameterType="User">
 		update t_user_info set
-		id=#{id},username=#{username},password=#{password},email=#{email},updatedate=#{updatedate},usertype=#{usertype},token=#{token}
+		id=#{id},username=#{username},password=#{password},email=#{email},updatedate=#{updatedate},usertype=#{usertype},token=#{token},
+		headimageurl=#{headimageurl},nickname=#{nickname},bloodtype=#{bloodtype},
+		birthday=#{birthday},hobby=#{hobby},address=#{address},sex=#{sex}
 		where id=#{id}
 	</update>
 
@@ -34,20 +44,25 @@
 	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
 	<select id="findById" parameterType="int" resultType="User">
 		select
-		id,username,password,email,updatedate,usertype,token
+		id,username,password,email,updatedate,usertype,token,headimageurl,nickname,bloodtype,birthday,hobby,address,sex
 		from t_user_info where
 		id=#{id};
 	</select>
 
 	<select id="findAll" resultType="User">
 		select
-		id,username,password,email,updatedate,usertype,token
+		id,username,password,email,updatedate,usertype,token,headimageurl,nickname,bloodtype,birthday,hobby,address,sex
 		from t_user_info;
 	</select>
 	
 	<select id="findByUser" parameterType="User" resultType="User">
 		select
-		id,username,password,email,updatedate,usertype,token
+		id,username,password,email,updatedate,usertype,token,headimageurl,nickname,bloodtype,birthday,hobby,address,sex
 		from t_user_info WHERE username=#{username} AND password=#{password};
+	</select>
+	<select id="findByToken" parameterType="String" resultType="User">
+		select
+		id,username,password,email,updatedate,usertype,token,headimageurl,nickname,bloodtype,birthday,hobby,address,sex
+		from t_user_info WHERE token=#{token};
 	</select>
 </mapper>

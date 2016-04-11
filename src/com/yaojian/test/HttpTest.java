@@ -24,7 +24,8 @@ public class HttpTest {
 			connetion.setDoOutput(true);
 			out = connetion.getOutputStream();
 //			out.write(getRegisterBody().getBytes("UTF-8"));
-			out.write(getLoginBody().getBytes("UTF-8"));
+//			out.write(getLoginBody().getBytes("UTF-8"));
+			out.write(getUpdateUserBody().getBytes("UTF-8"));
 			in = connetion.getInputStream();
 			int i = -1;
 			String s = "";
@@ -59,6 +60,13 @@ public class HttpTest {
 	}
 	private static String getLoginBody() {
 		String body = "{\"version\":\"v1.0\",\"messagetype\":\"LOGIN_REQ\",\"params\":{\"username\":\"yaojian1\",\"password\":\"yaojian1\"}}";
+		return body;
+	}
+	
+	private static String getUpdateUserBody() {
+		String body = "{\"version\":\"v1.0\",\"messagetype\":\"UPDATEUSER_REQ\",\"params\":{\"token\":\"PjprO6Tks/SFghwKLS0EKg==\",\"address\":\"重庆市巴南区红光大道8号\","
+					+ "\"birthday\":\"1987-01-02 12:23:23\",\"bloodtype\":1,\"email\":\"yaojian@gdtm.com\",\"headimageurl\":\"http://img5.imgtn.bdimg.com/it/u=1017606633,46849118&fm=11&gp=0.jpg\""
+					+ ",\"hobby\":\"我去\",\"nickname\":\"乱世英豪\",\"sex\":1}}";
 		return body;
 	}
 

@@ -15,6 +15,13 @@ public class User {
 	private String email;
 	private Integer usertype;
 	private String token;
+	private String headimageurl;
+	private String nickname;
+	private Integer bloodtype;
+	private Date birthday=new java.sql.Date(new java.util.Date().getTime());;
+	private String hobby;
+	private String address;
+	private Integer sex;
 	private Date updatedate = new java.sql.Date(new java.util.Date().getTime());
 	
 	public Integer getId() {
@@ -58,6 +65,48 @@ public class User {
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	public String getHeadimageurl() {
+		return headimageurl;
+	}
+	public void setHeadimageurl(String headimageurl) {
+		this.headimageurl = headimageurl;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public Integer getBloodtype() {
+		return bloodtype;
+	}
+	public void setBloodtype(Integer bloodtype) {
+		this.bloodtype = bloodtype;
+	}
+	public Date getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	public String getHobby() {
+		return hobby;
+	}
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
 	}
 	
 }

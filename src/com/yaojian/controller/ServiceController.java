@@ -3,6 +3,9 @@ package com.yaojian.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,10 +41,16 @@ public class ServiceController {
 	private static final String VERSION_STRING = "v1.0";
 	private static final String MESSAGEERROR_RSP_STRING = "MESSAGE_ERROR_RSP";
 	private static final String MESSAGEERROR_MESSAGE_STRING = "消息格式错误~";
+	// 消息格式错误
 	private static final String MESSAGEERROR_CODE_STRING = "0x000001";
+	// 接口访问成功
 	private static final String MESSAGEERROR_SUCCESS_CODE_STRING = "0x000000";
+	// 用户存在
 	private static final String MESSAGEERROR_USEREXISTS_CODE_STRING = "0x100001";
+	// 未注册
 	private static final String MESSAGEERROR_USERLONIN_CODE_STRING = "0x100002";
+	// 登录失效
+	private static final String MESSAGEERROR_USERLONIN_TIMEOUT_CODE_STRING = "0x100003";
 
 	private static final String REGISTER_PARAMS_STRING = "REGISTER_REQ";
 	private static final String LOGIN_PARAMS_STRING = "LOGIN_REQ";
@@ -68,55 +77,87 @@ public class ServiceController {
 				if (messageType.equals(REGISTER_PARAMS_STRING)) {
 					// 注册逻辑
 					return registerUser(resultJSONObject);
-				} else if (messageType.equals(LOGIN_PARAMS_STRING)){
+				} else if (messageType.equals(LOGIN_PARAMS_STRING)) {
 					// 登录逻辑
 					return login(resultJSONObject);
-				} else if (messageType.equals(UPDATEUSER_PARAMS_STRING)){
+				} else if (messageType.equals(UPDATEUSER_PARAMS_STRING)) {
 					// 登录逻辑
-					return login(resultJSONObject);
+					return updateUser(resultJSONObject);
 				}
 			}
 		}
 		return null;
 	}
-	
+
+	// 更新用户信息
 	private Map<String, Object> updateUser(JSONObject jsonObject) {
 		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
-		if (paramsObject == null) {
+		String token = paramsObject.getString("token");
+		if (paramsObject == null || token == null || token.trim().length() == 0) {
 			return getResponseMessage(MESSAGEERROR_RSP_STRING,
 					MESSAGEERROR_MESSAGE_STRING, VERSION_STRING,
 					MESSAGEERROR_CODE_STRING, null);
 		} else {
-			String username = paramsObject.getString("username");
-			String password = paramsObject.getString("password");
-			User user = new User();
-			user.setUsername(username);
-			user.setPassword(password);
-			User tempUser = userService.findByUser(user);
+			User tempUser = userService.findByToken(token);
 			Map<String, Object> resultMap = null;
 			String messageType = jsonObject
 					.getString(MESSAGETYPE_PARAMS_STRING);
-			String version= jsonObject
-					.getString(VERSION_PARAMS_STRING);
+			String version = jsonObject.getString(VERSION_PARAMS_STRING);
 			if (tempUser != null) {
-				resultMap=new HashMap<String, Object>();
-				String token=StringUtils.getToken(username, password);
-				tempUser.setToken(token);
+				resultMap = new HashMap<String, Object>();
+				if (paramsObject.has("address")) {
+					tempUser.setAddress(paramsObject.getString("address"));
+				}
+				if (paramsObject.has("birthday")) {
+					try {
+						SimpleDateFormat format = new SimpleDateFormat(
+								"yyyy-MM-dd HH:mm:dd");
+						tempUser.setBirthday(paramsObject.getString("birthday")
+								.trim().length() == 0 ? null
+								: new java.sql.Date(format.parse(
+										paramsObject.getString("birthday"))
+										.getTime()));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
+				if (paramsObject.has("bloodtype")) {
+					tempUser.setBloodtype(paramsObject.getInt("bloodtype"));
+				}
+				if (paramsObject.has("email")) {
+					tempUser.setEmail(paramsObject.getString("email"));
+				}
+				if (paramsObject.has("headimageurl")) {
+					tempUser.setHeadimageurl(paramsObject
+							.getString("headimageurl"));
+				}
+				if (paramsObject.has("hobby")) {
+					tempUser.setHobby(paramsObject.getString("hobby"));
+				}
+				if (paramsObject.has("nickname")) {
+					tempUser.setNickname(paramsObject.getString("nickname"));
+				}
+				if (paramsObject.has("sex")) {
+					tempUser.setSex(paramsObject.getInt("sex"));
+				}
+				tempUser.setUpdatedate(new Date(new java.util.Date().getTime()));
 				userService.update(tempUser);
-				resultMap.put("token", token);
-				resultMap.put("username", username);
-				resultMap.put("password", password);
-				return getResponseMessage(messageType,
-						"成功", version,
-						MESSAGEERROR_SUCCESS_CODE_STRING, resultMap);
+				return getResponseMessage(messageType, "成功", version,
+						MESSAGEERROR_SUCCESS_CODE_STRING, null);
 			} else {
-				return getResponseMessage(messageType,
-						"为注册用户", version,
-						MESSAGEERROR_USERLONIN_CODE_STRING, resultMap);
+				return getResponseMessage(messageType, "用户登录失效，请重新登录~",
+						version, MESSAGEERROR_USERLONIN_TIMEOUT_CODE_STRING,
+						resultMap);
 			}
 		}
 	}
-	
+
+	//
+	// private Map<String, Object> parseStudent(JSONObject jsonObject){
+	//
+	// return null;
+	// }
+
 	private Map<String, Object> login(JSONObject jsonObject) {
 		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
 		if (paramsObject == null) {
@@ -133,26 +174,24 @@ public class ServiceController {
 			Map<String, Object> resultMap = null;
 			String messageType = jsonObject
 					.getString(MESSAGETYPE_PARAMS_STRING);
-			String version= jsonObject
-					.getString(VERSION_PARAMS_STRING);
+			String version = jsonObject.getString(VERSION_PARAMS_STRING);
 			if (tempUser != null) {
-				resultMap=new HashMap<String, Object>();
-				String token=StringUtils.getToken(username, password);
+				resultMap = new HashMap<String, Object>();
+				String token = StringUtils.getToken(username, password);
 				tempUser.setToken(token);
 				userService.update(tempUser);
 				resultMap.put("token", token);
 				resultMap.put("username", username);
 				resultMap.put("password", password);
-				return getResponseMessage(messageType,
-						"成功", version,
+				return getResponseMessage(messageType, "成功", version,
 						MESSAGEERROR_SUCCESS_CODE_STRING, resultMap);
 			} else {
-				return getResponseMessage(messageType,
-						"为注册用户", version,
+				return getResponseMessage(messageType, "未注册用户", version,
 						MESSAGEERROR_USERLONIN_CODE_STRING, resultMap);
 			}
 		}
 	}
+
 	private Map<String, Object> registerUser(JSONObject jsonObject) {
 		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
 		if (paramsObject == null) {
@@ -171,16 +210,13 @@ public class ServiceController {
 			Map<String, Object> resultMap = null;
 			String messageType = jsonObject
 					.getString(MESSAGETYPE_PARAMS_STRING);
-			String version= jsonObject
-					.getString(VERSION_PARAMS_STRING);
+			String version = jsonObject.getString(VERSION_PARAMS_STRING);
 			if (tempUser != null) {
-				return getResponseMessage(messageType,
-						"用户已存在", version,
+				return getResponseMessage(messageType, "用户已存在", version,
 						MESSAGEERROR_USEREXISTS_CODE_STRING, resultMap);
 			} else {
 				userService.save(user);
-				return getResponseMessage(messageType,
-						"成功", version,
+				return getResponseMessage(messageType, "成功", version,
 						MESSAGEERROR_SUCCESS_CODE_STRING, resultMap);
 			}
 		}

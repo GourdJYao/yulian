@@ -48,4 +48,10 @@ public class UserServiceImpl implements UserService {
 	public User findByUser(User user) {
 		return mapper.findByUser(user);
 	}
+
+	@Override
+	public User findByToken(String token) {
+		// TODO Auto-generated method stub
+		return mapper.findByToken(token);
+	}
 }
