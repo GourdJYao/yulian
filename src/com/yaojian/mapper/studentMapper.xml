@@ -3,8 +3,23 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
 <mapper namespace="com.yaojian.mapper.StudentMapper">
+    
+    <resultMap id="resourceResultMap" type="com.yaojian.model.Student">
+		<result column="id" property="id" />
+		<result column="studentname" property="studentname" />
+		<result column="studenttype" property="studenttype" />
+		<result column="studentidcard" property="studentidcard" />
+		<result column="studentidcardimg" property="studentidcardimg" />
+		<result column="studentcardno" property="studentcardno" />
+		<result column="studentcardimg" property="studentcardimg" />
+		<result column="headimageurl" property="headimageurl" />
+		<result column="userid" property="userid" />
+		<result column="studentdrivercardno" property="studentdrivercardno" />
+		<result column="studentdrivercardnoimg" property="studentdrivercardnoimg" />
+		<result column="createdate" property="createdate" />
+	</resultMap>
 
-	<insert id="save" parameterType="Student">
+	<insert id="save" parameterType="com.yaojian.model.Student">
 		insert into
 		t_student_info(
 		studentname,
@@ -30,7 +45,7 @@
 		);
 	</insert>
 
-	<update id="update" parameterType="Student">
+	<update id="update" parameterType="com.yaojian.model.Student">
 		update t_student_info set
 		id=#{id},
 		studentname=#{studentname},
@@ -52,7 +67,7 @@
 	</delete>
 
 	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
-	<select id="findById" parameterType="int" resultType="Student">
+	<select id="findById" parameterType="int" resultType="com.yaojian.model.Student">
 		select
 		id,studentname,
 		studenttype,
@@ -66,8 +81,23 @@
 		from t_student_info where
 		id=#{id};
 	</select>
+	
+	<select id="findByUserId" parameterType="int" resultType="com.yaojian.model.Student">
+		select
+		id,studentname,
+		studenttype,
+		studentidcard,
+		studentidcardimg,
+		studentcardno,
+		studentcardimg,
+		userid,
+		studentdrivercardno,
+		studentdrivercardnoimg,createdate
+		from t_student_info where
+		userid=#{userid};
+	</select>
 
-	<select id="findAll" resultType="Student">
+	<select id="findAll" resultType="com.yaojian.model.Student">
 		select
 		id,studentname,
 		studenttype,

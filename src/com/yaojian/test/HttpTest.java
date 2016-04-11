@@ -24,8 +24,13 @@ public class HttpTest {
 			connetion.setDoOutput(true);
 			out = connetion.getOutputStream();
 //			out.write(getRegisterBody().getBytes("UTF-8"));
-//			out.write(getLoginBody().getBytes("UTF-8"));
-			out.write(getUpdateUserBody().getBytes("UTF-8"));
+			out.write(getLoginBody().getBytes("UTF-8"));
+//			out.write(getUpdateUserBody().getBytes("UTF-8"));
+//			out.write(getUpdateStudentBody().getBytes("UTF-8"));
+//			out.write(getUpdateCoachBody().getBytes("UTF-8"));
+			
+			  
+			
 			in = connetion.getInputStream();
 			int i = -1;
 			String s = "";
@@ -59,7 +64,7 @@ public class HttpTest {
 		return body;
 	}
 	private static String getLoginBody() {
-		String body = "{\"version\":\"v1.0\",\"messagetype\":\"LOGIN_REQ\",\"params\":{\"username\":\"yaojian1\",\"password\":\"yaojian1\"}}";
+		String body = "{\"version\":\"v1.0\",\"messagetype\":\"LOGIN_REQ\",\"params\":{\"username\":\"yaojian\",\"password\":\"yaojian\"}}";
 		return body;
 	}
 	
@@ -67,6 +72,25 @@ public class HttpTest {
 		String body = "{\"version\":\"v1.0\",\"messagetype\":\"UPDATEUSER_REQ\",\"params\":{\"token\":\"PjprO6Tks/SFghwKLS0EKg==\",\"address\":\"重庆市巴南区红光大道8号\","
 					+ "\"birthday\":\"1987-01-02 12:23:23\",\"bloodtype\":1,\"email\":\"yaojian@gdtm.com\",\"headimageurl\":\"http://img5.imgtn.bdimg.com/it/u=1017606633,46849118&fm=11&gp=0.jpg\""
 					+ ",\"hobby\":\"我去\",\"nickname\":\"乱世英豪\",\"sex\":1}}";
+		return body;
+	}
+	
+	private static String getUpdateStudentBody() {
+		String body = "{\"version\":\"v1.0\",\"messagetype\":\"UPDATESTUDENT_REQ\",\"params\":{\"token\":\"PjprO6Tks/SFghwKLS0EKg==\","
+					+ "\"studentname\":\"GourdJYao\",\"studenttype\":1,\"studentidcard\":\"500109198902150110\","
+					+ "\"studentidcardimg\":\"http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg\","
+					+ "\"studentcardno\":\"GX23121212a\",\"studentcardimg\":\"http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg\","
+					+ "\"studentdrivercardno\":\"渝A19312199\",\"studentdrivercardnoimg\":\"http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg\"}}";
+		return body;
+	}
+	
+	private static String getUpdateCoachBody() {
+		String body = "{\"version\":\"v1.0\",\"messagetype\":\"UPDATECOACH_REQ\",\"params\":{\"token\":\"PjprO6Tks/SFghwKLS0EKg==\","
+					+ "\"coachname\":\"GourdJYao01\",\"isreview\":1,\"coachidcardnumber\":\"500109198902150110\","
+					+ "\"coachcardimage\":\"http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg\","
+					+ "\"coachcardnumber\":\"GX23121212\",\"coachidcardimage\":\"http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg\","
+					+ "\"coachiddrivercarno\":\"渝A19312199\",\"coachiddrviercarimg\":\"http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg\""
+					+ ",\"reviewdesc\":\"资料齐全通过\",\"coachdesc\":\"还可以~\"}}";
 		return body;
 	}
 

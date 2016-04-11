@@ -10,4 +10,5 @@ public interface StudentMapper {
 	boolean delete(Integer id);
 	Student findById(Integer id);
 	List<Student> findAll();
+	Student findByUserId(Integer userid);
 }

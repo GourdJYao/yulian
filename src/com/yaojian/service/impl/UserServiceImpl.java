@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByToken(String token) {
-		// TODO Auto-generated method stub
 		return mapper.findByToken(token);
 	}
 }

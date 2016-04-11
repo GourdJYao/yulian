@@ -29,13 +29,13 @@
 			<result column="coachiddrviercarimg" property="coachiddrviercarimg" />
 		</collection>
 	</resultMap>
-	<insert id="save" parameterType="Field">
+	<insert id="save" parameterType="com.yaojian.model.Field">
 		insert into
 		t_field_info(fieldname,fieldphoto,fieldaddress,createdate)
 		values(#{fieldname},#{fieldphoto},#{fieldaddress},#{createdate})
 	</insert>
 
-	<update id="update" parameterType="Field">
+	<update id="update" parameterType="com.yaojian.model.Field">
 		update t_field_info set
 		field_id=#{field_id},fieldname=#{fieldname},fieldphoto=#{fieldphoto},fieldaddress=#{fieldaddress},createdate=#{createdate}
 		where field_id=#{field_id}
@@ -47,7 +47,7 @@
 	</delete>
 
 	<!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->
-	<select id="findById" parameterType="int" resultType="Field">
+	<select id="findById" parameterType="int" resultType="com.yaojian.model.Field">
 		select
 		field_id,fieldname,fieldphoto,fieldaddress,createdate
 		from t_field_info where
@@ -63,7 +63,7 @@
 		LEFT JOIN t_coach_info tci ON  tuft.userid=tci.id  WHERE tfii.field_id=#{id};
 	</select>
 
-	<select id="findAll" resultType="Field">
+	<select id="findAll" resultType="com.yaojian.model.Field">
 		select
 		field_id,fieldname,fieldphoto,fieldaddress,createdate
 		from t_field_info;

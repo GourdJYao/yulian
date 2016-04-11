@@ -1,4 +1,4 @@
-package com.yaojian.mapper;
+package com.yaojian.service;
 
 import java.util.List;
 
@@ -6,10 +6,8 @@ import com.yaojian.model.Coach;
 import com.yaojian.model.CoachCarLink;
 import com.yaojian.model.CoachFieldLink;
 
-public interface CoachMapper{
-
+public interface CoachService {
 	void save(Coach coach);
-	void saveCoachCar(CoachCarLink coachCarLink);
 	boolean update(Coach coach);
 	boolean delete(int id);
 	Coach findById(int id);

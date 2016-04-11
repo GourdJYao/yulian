@@ -13,7 +13,10 @@ public class Student {
 	private Integer userid;
 	private String studentdrivercardno;
 	private String studentdrivercardnoimg;
-	private Date createdate = new java.sql.Date(new java.util.Date().getTime());;
+	private Date createdate = new java.sql.Date(new java.util.Date().getTime());
+	public Student(){
+		
+	}
 	
 	public Integer getId() {
 		return id;

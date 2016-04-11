@@ -15,7 +15,7 @@ public class Coach {
 	//0未审核   1审核通过   2 投诉删除
 	private int isreview=0;
 	private String reviewdesc;
-	private String userid;
+	private Integer userid;
 	private String coachiddrivercarno;
 	private String coachiddrviercarimg;
 	private List<Car> carlist;
@@ -81,10 +81,10 @@ public class Coach {
 	public void setReviewdesc(String reviewdesc) {
 		this.reviewdesc = reviewdesc;
 	}
-	public String getUserid() {
+	public Integer getUserid() {
 		return userid;
 	}
-	public void setUserid(String userid) {
+	public void setUserid(Integer userid) {
 		this.userid = userid;
 	}
 	public String getCoachiddrivercarno() {

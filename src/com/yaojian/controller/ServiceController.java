@@ -19,15 +19,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yaojian.model.Coach;
+import com.yaojian.model.Student;
 import com.yaojian.model.User;
+import com.yaojian.service.CoachService;
+import com.yaojian.service.StudentService;
 import com.yaojian.service.UserService;
 import com.yaojian.utils.StringUtils;
 
 @Controller
-// @RequestMapping("/yuelianservice")
 public class ServiceController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private StudentService studentService;
+	@Autowired
+	private CoachService coachService;
 
 	private static final String DEFAULT_ENCODING = "UTF-8";
 	private static final String REQUEST_PARAMS_STRING = "_REQ";
@@ -55,6 +62,8 @@ public class ServiceController {
 	private static final String REGISTER_PARAMS_STRING = "REGISTER_REQ";
 	private static final String LOGIN_PARAMS_STRING = "LOGIN_REQ";
 	private static final String UPDATEUSER_PARAMS_STRING = "UPDATEUSER_REQ";
+	private static final String UPDATESTUDENT_PARAMS_STRING = "UPDATESTUDENT_REQ";
+	private static final String UPDATECOACH_PARAMS_STRING = "UPDATECOACH_REQ";
 
 	@ResponseBody
 	@RequestMapping("/service")
@@ -83,10 +92,144 @@ public class ServiceController {
 				} else if (messageType.equals(UPDATEUSER_PARAMS_STRING)) {
 					// 登录逻辑
 					return updateUser(resultJSONObject);
+				} else if(messageType.equals(UPDATESTUDENT_PARAMS_STRING)){
+					return parseStudent(resultJSONObject);
+				} else if(messageType.equals(UPDATECOACH_PARAMS_STRING)){
+					return parseCoach(resultJSONObject);
 				}
 			}
 		}
 		return null;
+	}
+	// 如果用户是教练
+	private Map<String, Object> parseCoach(JSONObject jsonObject) {
+		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
+		String token = paramsObject.getString("token");
+		if (paramsObject == null || token == null || token.trim().length() == 0) {
+			return getResponseMessage(MESSAGEERROR_RSP_STRING,
+					MESSAGEERROR_MESSAGE_STRING, VERSION_STRING,
+					MESSAGEERROR_CODE_STRING, null);
+		} else {
+			User tempUser = userService.findByToken(token);
+			Map<String, Object> resultMap = null;
+			String messageType = jsonObject
+					.getString(MESSAGETYPE_PARAMS_STRING);
+			String version = jsonObject.getString(VERSION_PARAMS_STRING);
+			if (tempUser != null) {
+				resultMap = new HashMap<String, Object>();
+				Coach coach=new Coach();
+				coach.setUserid(tempUser.getId());
+				if (paramsObject.has("coachname")) {
+					coach.setCoachname(paramsObject.getString("coachname"));
+				}
+				if (paramsObject.has("coachcardnumber")) {
+					//教练证号码
+					coach.setCoachcardnumber(paramsObject.getString("coachcardnumber"));
+				}
+				if (paramsObject.has("coachcardimage")) {
+					//教练证图片
+					coach.setCoachcardimage(paramsObject.getString("coachcardimage"));
+				}
+				if (paramsObject.has("coachidcardnumber")) {
+					//身份证号码
+					coach.setCoachidcardnumber(paramsObject.getString("coachidcardnumber"));
+				}
+				if (paramsObject.has("coachidcardimage")) {
+					//身份证照片
+					coach.setCoachidcardimage(paramsObject.getString("coachidcardimage"));
+				}
+				if (paramsObject.has("coachdesc")) {
+					//学员证号码
+					coach.setCoachdesc(paramsObject.getString("coachdesc"));
+				}
+				if (paramsObject.has("coachiddrivercarno")) {
+					//驾驶证号码
+					coach.setCoachiddrivercarno(paramsObject.getString("coachiddrivercarno"));
+				}
+				if (paramsObject.has("coachiddrviercarimg")) {
+					//驾驶证图片
+					coach.setCoachiddrviercarimg(paramsObject.getString("coachiddrviercarimg"));
+				}
+				if (paramsObject.has("isreview")) {
+					//是否审核
+					coach.setIsreview(paramsObject.getInt("isreview"));
+				}
+				if (paramsObject.has("reviewdesc")) {
+					//审核结果
+					coach.setReviewdesc(paramsObject.getString("reviewdesc"));
+				}
+				coach.setCoachdate(new Date(System.currentTimeMillis()));
+				coachService.update(coach);
+				return getResponseMessage(messageType, "成功", version,
+						MESSAGEERROR_SUCCESS_CODE_STRING, null);
+			} else {
+				return getResponseMessage(messageType, "用户登录失效，请重新登录~",
+						version, MESSAGEERROR_USERLONIN_TIMEOUT_CODE_STRING,
+						resultMap);
+			}
+		}
+	}
+	
+	// 如果用户时学员则调用该方法
+	private Map<String, Object> parseStudent(JSONObject jsonObject) {
+		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
+		String token = paramsObject.getString("token");
+		if (paramsObject == null || token == null || token.trim().length() == 0) {
+			return getResponseMessage(MESSAGEERROR_RSP_STRING,
+					MESSAGEERROR_MESSAGE_STRING, VERSION_STRING,
+					MESSAGEERROR_CODE_STRING, null);
+		} else {
+			User tempUser = userService.findByToken(token);
+			Map<String, Object> resultMap = null;
+			String messageType = jsonObject
+					.getString(MESSAGETYPE_PARAMS_STRING);
+			String version = jsonObject.getString(VERSION_PARAMS_STRING);
+			if (tempUser != null) {
+				resultMap = new HashMap<String, Object>();
+				Student student=new Student();
+				student.setUserid(tempUser.getId());
+				if (paramsObject.has("studentname")) {
+					student.setStudentname(paramsObject.getString("studentname"));
+				}
+				if (paramsObject.has("studenttype")) {
+					//1 学员   2 刚毕业的（需要找陪驾）
+					student.setStudenttype(paramsObject.getInt("studenttype"));
+				}
+				if (paramsObject.has("studentidcard")) {
+					//身份证
+					student.setStudentidcard(paramsObject.getString("studentidcard"));
+				}
+				if (paramsObject.has("studentidcardimg")) {
+					//身份证照片
+					student.setStudentidcardimg(paramsObject.getString("studentidcardimg"));
+				}
+				if (paramsObject.has("studentcardno")) {
+					//学员证号码
+					student.setStudentcardno(paramsObject.getString("studentcardno"));
+				}
+				if (paramsObject.has("studentcardimg")) {
+					//学员证图片
+					student.setStudentcardimg(paramsObject.getString("studentcardimg"));
+				}
+				if (paramsObject.has("studentdrivercardno")) {
+					//驾驶证号码
+					student.setStudentdrivercardno(paramsObject.getString("studentdrivercardno"));
+				}
+				if (paramsObject.has("studentdrivercardnoimg")) {
+					//驾驶证图片
+					student.setStudentdrivercardnoimg(paramsObject.getString("studentdrivercardnoimg"));
+				}
+				student.setCreatedate(new Date(System.currentTimeMillis()));
+				studentService.update(student);
+				return getResponseMessage(messageType, "成功", version,
+						MESSAGEERROR_SUCCESS_CODE_STRING, null);
+			} else {
+				return getResponseMessage(messageType, "用户登录失效，请重新登录~",
+						version, MESSAGEERROR_USERLONIN_TIMEOUT_CODE_STRING,
+						resultMap);
+			}
+		}
+	
 	}
 
 	// 更新用户信息
@@ -151,12 +294,6 @@ public class ServiceController {
 			}
 		}
 	}
-
-	//
-	// private Map<String, Object> parseStudent(JSONObject jsonObject){
-	//
-	// return null;
-	// }
 
 	private Map<String, Object> login(JSONObject jsonObject) {
 		JSONObject paramsObject = jsonObject.getJSONObject(PARAMS_STRING);
