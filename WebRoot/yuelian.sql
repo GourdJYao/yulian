@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2016-03-29 13:58:33
+Date: 2016-04-20 15:51:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -53,13 +53,14 @@ CREATE TABLE `t_coach_info` (
   `coachiddrivercarno` varchar(50) DEFAULT NULL,
   `coachiddrviercarimg` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_coach_info
 -- ----------------------------
 INSERT INTO `t_coach_info` VALUES ('1', 'fasljkfjalk', '121212', null, null, null, null, null, null, null, '5', null, null);
 INSERT INTO `t_coach_info` VALUES ('2', 'werqwer', '1233425', null, null, null, null, null, null, null, '4', null, null);
+INSERT INTO `t_coach_info` VALUES ('3', 'GourdJYao01', 'GX23121212', 'GX23121212', '500109198902150110', 'http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg', '还可以~', '2016-04-11 00:00:00', '1', '资料齐全通过', '7', '渝A19312199', 'http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg');
 
 -- ----------------------------
 -- Table structure for `t_field_info`
@@ -96,11 +97,12 @@ CREATE TABLE `t_student_info` (
   `studentdrivercardnoimg` varchar(500) DEFAULT NULL,
   `createdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_student_info
 -- ----------------------------
+INSERT INTO `t_student_info` VALUES ('1', 'GourdJYao', '1', '500109198902150110', 'http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg', 'GX23121212a', 'http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg', '7', '渝A19312199', 'http://img3.imgtn.bdimg.com/it/u=1183223528,3058066243&fm=206&gp=0.jpg', '2016-04-11 00:00:00');
 
 -- ----------------------------
 -- Table structure for `t_user_car_temp`
@@ -149,13 +151,22 @@ CREATE TABLE `t_user_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
-  `updatedate` datetime DEFAULT NULL,
+  `headimageurl` varchar(200) DEFAULT NULL,
+  `usertype` int(11) DEFAULT NULL COMMENT '0：学员，1:教练',
   `email` varchar(100) DEFAULT NULL,
+  `nickname` varchar(20) DEFAULT NULL,
+  `sex` int(11) DEFAULT NULL,
+  `bloodtype` int(11) DEFAULT NULL,
+  `birthday` datetime DEFAULT NULL,
+  `hobby` varchar(200) DEFAULT NULL COMMENT '兴趣爱好',
+  `address` varchar(50) DEFAULT NULL,
+  `token` varchar(32) DEFAULT NULL,
+  `updatedate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_user_info
 -- ----------------------------
-INSERT INTO `t_user_info` VALUES ('4', 'GourdJYao', 'yaojian', '2016-03-04 00:00:00', null);
-INSERT INTO `t_user_info` VALUES ('5', 'yaojian', 'yaojian', '2016-03-08 00:00:00', null);
+INSERT INTO `t_user_info` VALUES ('5', 'yaojian', 'yaojian', null, null, null, null, null, null, '2016-04-11 00:00:00', null, null, 'dapJAExf//QjJuQnz/i0Aw==', '2016-03-08 00:00:00');
+INSERT INTO `t_user_info` VALUES ('7', 'yaojian1', 'yaojian1', 'http://img5.imgtn.bdimg.com/it/u=1017606633,46849118&fm=11&gp=0.jpg', '1', 'yaojian@gdtm.com', '乱世英豪', '1', '1', '1987-01-23 00:00:00', '我去', '重庆市巴南区红光大道8号', 'PjprO6Tks/SFghwKLS0EKg==', '2016-04-11 00:00:00');
